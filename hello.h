@@ -18,6 +18,8 @@ void test_memcpy(void);
 
 int compar(const void *elem1, const void *elem2);
 
+void animal_compare(void);
+
 void allocate_int(int **out, int value);
 
 void voidPointerCast(void);
