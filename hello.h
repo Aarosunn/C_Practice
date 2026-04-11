@@ -6,11 +6,11 @@ struct animal {
     int leg_count;
 };
 
+/*---------- Practice ----------*/
+
 void hello(void);
 
 void array(void);
-
-void rawArrNav(void);
 
 void *my_memcpy(void *dest, void *src, int byte_count);
 
@@ -20,9 +20,23 @@ int compar(const void *elem1, const void *elem2);
 
 void animal_compare(void);
 
-void allocate_int(int **out, int value);
+void memAlloc(void);
+
+void casting(void);
+
+void p2p(void);
+
+/*------------------------------*/
+
+/*---------- Exercises ----------*/
+
+void rawArrNav(void);
+
+int allocate_int(int **out, int value);
 
 void voidPointerCast(void);
+
+/*-------------------------------*/
 
 
 #endif

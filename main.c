@@ -7,10 +7,25 @@
 int main() {
     //hello();
     //array();
-    //rawArrNav();
     //test_memcpy();
-    animal_compare();
+    //animal_compare();
+    //memAlloc();
+    //casting();
+    //p2p();
+
+    //rawArrNav();
+
+    // int *ptr;
+    // allocate_int(&ptr, 7);
+
+    // printf("%d\n", *ptr);
+
+    // free(ptr);
+
+    voidPointerCast();
 }
+
+/*---------- Practice ----------*/
 
 void hello(void) {
     printf("Hello World!\n");
@@ -79,21 +94,6 @@ void array(void) {
     printf("%d\n", 2[test]);
 }
 
-void rawArrNav(void) {
-    int arr[10];
-
-    int size = sizeof arr / sizeof(int);
-
-    for(int *ptr = arr; ptr != arr + size; ++ptr) {
-        *ptr = (int)((ptr - arr) * (ptr - arr));
-    }
-
-    for(int *ptr = arr; ptr < arr + size; ++ptr) {
-        printf("arr[%ld] = %d\n", ptr - arr, *ptr);
-    }
-
-}
-
 void *my_memcpy(void *dest, void *src, int byte_count) {
     
     char *s = src, *d = dest;
@@ -153,10 +153,78 @@ void animal_compare() {
     }
 }
 
-// void allocate_int(int **out, int value) {
+void memAlloc() {
 
-// }
+    int *p = malloc(sizeof(int));
 
-void voidPointerCast(void) {
+    *p = 12;
+
+    printf("%d\n", *p);
+
+    free(p);
 
 }
+
+void casting() {
+    int x = 10;
+
+    long long y = (long long)x + 12;
+
+    printf("%zu\n", sizeof(y));
+}
+
+void p2p() {
+    int x = 6767;
+    int *p = &x;
+
+    printf("%p\n", (void *)&p);
+
+    int **q = &p;
+
+    printf("value: %d\n", **q);
+}
+
+/*------------------------------*/
+
+/*---------- Exercises ----------*/
+
+void rawArrNav(void) {
+    int arr[10];
+
+    int size = sizeof arr / sizeof(int);
+
+    for(int *ptr = arr; ptr != arr + size; ++ptr) {
+        *ptr = (int)((ptr - arr) * (ptr - arr));
+    }
+
+    for(int *ptr = arr; ptr < arr + size; ++ptr) {
+        printf("arr[%ld] = %d\n", ptr - arr, *ptr);
+    }
+
+}
+
+int allocate_int(int **out, int value) {
+    *out = malloc(sizeof(int));
+    if (*out == NULL) return -1;
+    **out = value;
+    return 0;
+}
+
+void voidPointerCast(void) {
+    void *buffer = malloc(64);
+
+    int *intByte = (int *)buffer;
+    char *charByte = (char *)buffer + 4;
+    float *floatByte = (float *)((char *)buffer + 8);
+
+    *intByte = 67;
+    *charByte = 's';
+    *floatByte = 3.14f;
+
+    printf("int byte: %d\nchar byte: %c\nfloat byte: %0.2f\n",
+            *intByte, *charByte, *floatByte);
+
+    free(buffer);
+}
+
+/*-------------------------------*/
