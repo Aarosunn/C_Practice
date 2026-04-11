@@ -1,12 +1,14 @@
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "hello.h"
 
 int main() {
     //hello();
     //array();
-    rawArrNav();
+    //rawArrNav();
+    test_memcpy();
 }
 
 void hello(void) {
@@ -70,6 +72,10 @@ void array(void) {
 
     int *p = nums;
     printf("%d\n", *p);
+
+    int test[5] = {1, 2, 3, 4, 5};
+
+    printf("%d\n", 2[test]);
 }
 
 void rawArrNav(void) {
@@ -87,9 +93,36 @@ void rawArrNav(void) {
 
 }
 
-void p2p(void) {
+void *my_memcpy(void *dest, void *src, int byte_count) {
+    
+    char *s = src, *d = dest;
 
+    while(byte_count--) {
+        *d++ = *s++;
+    }
+
+    return dest;
 }
+
+void test_memcpy() {
+    char* s = "Goats!";
+    char t[100];
+
+    my_memcpy(t, s, 7);
+
+    printf("%s\n", t);
+
+    int a[] = {11, 22, 33};
+    int b[3];
+
+    my_memcpy(b, a, sizeof(a));
+
+    printf("%d\n", b[1]);
+}
+
+// void allocate_int(int **out, int value) {
+
+// }
 
 void voidPointerCast(void) {
 
