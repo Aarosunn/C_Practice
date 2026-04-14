@@ -22,12 +22,15 @@ int main() {
 
     // free(ptr);
 
-    voidPointerCast();
+    //voidPointerCast();
+
+    pointerArray();
 }
 
 /*---------- Practice ----------*/
 
-void hello(void) {
+void hello(void) 
+{
     printf("Hello World!\n");
     int i = 2;
     double f = 3.14;
@@ -56,7 +59,8 @@ void hello(void) {
     printf("i is %d\n", *p);
 }
 
-void array(void) {
+void array(void) 
+{
     int nums[4];
 
     nums[0] = 1;
@@ -94,7 +98,8 @@ void array(void) {
     printf("%d\n", 2[test]);
 }
 
-void *my_memcpy(void *dest, void *src, int byte_count) {
+void *my_memcpy(void *dest, void *src, int byte_count) 
+{
     
     char *s = src, *d = dest;
 
@@ -105,7 +110,8 @@ void *my_memcpy(void *dest, void *src, int byte_count) {
     return dest;
 }
 
-void test_memcpy() {
+void test_memcpy() 
+{
     char* s = "Goats!";
     char t[100];
 
@@ -121,7 +127,8 @@ void test_memcpy() {
     printf("%d\n", b[1]);
 }
 
-int compar(const void *elem1, const void *elem2) {
+int compar(const void *elem1, const void *elem2) 
+{
 
     const struct animal *animal1 = elem1;
     const struct animal *animal2 = elem2;
@@ -135,7 +142,8 @@ int compar(const void *elem1, const void *elem2) {
     return 0;
 }
 
-void animal_compare() {
+void animal_compare() 
+{
 
     struct animal a[4] = {
         {.name="Dog", .leg_count=4},
@@ -153,7 +161,8 @@ void animal_compare() {
     }
 }
 
-void memAlloc() {
+void memAlloc() 
+{
 
     int *p = malloc(sizeof(int));
 
@@ -165,7 +174,8 @@ void memAlloc() {
 
 }
 
-void casting() {
+void casting() 
+{
     int x = 10;
 
     long long y = (long long)x + 12;
@@ -173,7 +183,8 @@ void casting() {
     printf("%zu\n", sizeof(y));
 }
 
-void p2p() {
+void p2p() 
+{
     int x = 6767;
     int *p = &x;
 
@@ -182,6 +193,36 @@ void p2p() {
     int **q = &p;
 
     printf("value: %d\n", **q);
+}
+
+void pointerArray() 
+{
+    int a[] = {11, 22, 33, 44, 55};
+
+    int *p = a;
+
+    for(int i = 0; i < 5; ++i) 
+        printf("%d\n", a[i]);
+
+    printf("\n");
+
+    for(int i = 0; i < 5; ++i) 
+        printf("%d\n", p[i]);
+
+    printf("\n");
+
+    for(int i = 0; i < 5; ++i)
+        printf("%d\n", *(a + i));
+
+    printf("\n");
+
+    for(int i = 0; i < 5; ++i)
+        printf("%d\n", *(p + i));
+
+    printf("\n");
+
+    for(int i = 0; i < 5; ++i)
+        printf("%d\n", *(p++));
 }
 
 /*------------------------------*/

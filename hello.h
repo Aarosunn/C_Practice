@@ -26,6 +26,8 @@ void casting(void);
 
 void p2p(void);
 
+void pointerArray(void);
+
 /*------------------------------*/
 
 /*---------- Exercises ----------*/
