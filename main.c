@@ -24,7 +24,9 @@ int main() {
 
     //voidPointerCast();
 
-    pointerArray();
+    //pointerArray();
+
+    pArithmetic();
 }
 
 /*---------- Practice ----------*/
@@ -229,7 +231,8 @@ void pointerArray()
 
 /*---------- Exercises ----------*/
 
-void rawArrNav(void) {
+void rawArrNav() 
+{
     int arr[10];
 
     int size = sizeof arr / sizeof(int);
@@ -244,14 +247,16 @@ void rawArrNav(void) {
 
 }
 
-int allocate_int(int **out, int value) {
+int allocate_int(int **out, int value) 
+{
     *out = malloc(sizeof(int));
     if (*out == NULL) return -1;
     **out = value;
     return 0;
 }
 
-void voidPointerCast(void) {
+void voidPointerCast() 
+{
     void *buffer = malloc(64);
 
     int *intByte = (int *)buffer;
@@ -266,6 +271,25 @@ void voidPointerCast(void) {
             *intByte, *charByte, *floatByte);
 
     free(buffer);
+}
+
+void pArithmetic()
+{
+    void *buffer = malloc(64);
+
+    char *cptr = buffer;
+    int *iptr = buffer;
+
+    printf("address of char: %p\naddress of int:  %p\n\n", 
+        (void *)cptr, (void *)iptr);
+
+    cptr++, iptr++;
+
+    printf("address of char: %p\naddress of int:  %p\n",
+        (void *)cptr, (void *)iptr);
+
+    free(buffer);
+
 }
 
 /*-------------------------------*/

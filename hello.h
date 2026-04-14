@@ -38,6 +38,8 @@ int allocate_int(int **out, int value);
 
 void voidPointerCast(void);
 
+void pArithmetic(void);
+
 /*-------------------------------*/
 
 
