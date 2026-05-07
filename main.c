@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include "hello.h"
 
 int main() {
@@ -26,42 +27,51 @@ int main() {
 
     //pointerArray();
 
-    pArithmetic();
+    //pArithmetic();
+
+    //paddingBytes();
+
+    struct list *head = NULL;
+
+    insert_at_head(&head, create_node(1));
+    insert_at_head(&head, create_node(2));
+    insert_at_head(&head, create_node(0));
+    insert_at_head(&head, create_node(3));
+    insert_at_head(&head, create_node(7));
+
+    iterate(head);
+    free_all(head);
 }
 
 /*---------- Practice ----------*/
 
-void hello(void) 
+void hello() 
 {
-    printf("Hello World!\n");
     int i = 2;
-    double f = 3.14;
-    char *s = "Hello, world!";
+    float f = 3.14f;
+    char* s = "Hello World!";
+
+    printf("%s\n", s);
     printf("%s i = %d and f = %.2f!\n", s, i, f);
 
     bool x = true;
 
-    if (x) {
+    if(x)
         printf("x is true\n");
-    }
 
-    int y = 32;
-    printf("The number %d is %s.\n", y, y % 2 == 0 ? "even": "odd");
 
-    printf("The size of i is %zu\n", sizeof(i));
+    int num = 32;
+    printf("The number %d is %s\n", num, num % 2 == 0 ? "even" : "odd");
+    printf("The size of num is %zu\n", sizeof(num));
 
-    printf("The size of a pointer is %zu\n", sizeof(int*));
-
-    i = 10;
+    int *ptr = &num;
+    printf("The size of a pointer is %zu\n", sizeof(ptr));
 
     printf("The address of i is %p\n", (void *)&i);
-
-    int *p = &i;
-
-    printf("i is %d\n", *p);
+    printf("num is %d\n", *ptr);
 }
 
-void array(void) 
+void array() 
 {
     int nums[4];
 
@@ -227,6 +237,16 @@ void pointerArray()
         printf("%d\n", *(p++));
 }
 
+void paddingBytes() 
+{
+    printf("%zu\n", sizeof(struct foo));
+
+    printf("%zu\n", offsetof(struct foo, a));
+    printf("%zu\n", offsetof(struct foo, b));
+    printf("%zu\n", offsetof(struct foo, c));
+    printf("%zu\n", offsetof(struct foo, d));
+}
+
 /*------------------------------*/
 
 /*---------- Exercises ----------*/
@@ -291,5 +311,47 @@ void pArithmetic()
     free(buffer);
 
 }
+
+void insert_at_head(struct list **head, struct list *newNode)
+{
+    newNode->next = *head;
+    *head = newNode;
+}
+
+struct list *create_node(int datum)
+{
+    struct list *node = malloc(sizeof(struct list));
+    if (node == NULL) return NULL;
+    node->datum = datum;
+    node->next = NULL;
+    return node;
+}
+
+void iterate(struct list *head)
+{
+    for(struct list *curr = head; curr != NULL; curr = curr->next)
+        printf("%d -> ", curr->datum);
+    printf("NULL\n");
+}
+
+void free_all(struct list *head)
+{
+    while(head) {
+        struct list *dummy = head;
+        head = head->next;
+        free(dummy);
+    }
+        
+}
+
+// void free_all(struct list *head)
+// {
+//     struct list *cur = head;
+//     while (cur != NULL) {
+//         struct list *next = cur->next;
+//         free(cur);
+//         cur = next;
+//     }
+// }
 
 /*-------------------------------*/

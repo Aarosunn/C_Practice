@@ -6,6 +6,13 @@ struct animal {
     int leg_count;
 };
 
+struct foo {
+    int a;
+    char b;
+    int c;
+    char d;
+};
+
 /*---------- Practice ----------*/
 
 void hello(void);
@@ -28,6 +35,8 @@ void p2p(void);
 
 void pointerArray(void);
 
+void paddingBytes(void);
+
 /*------------------------------*/
 
 /*---------- Exercises ----------*/
@@ -39,6 +48,19 @@ int allocate_int(int **out, int value);
 void voidPointerCast(void);
 
 void pArithmetic(void);
+
+struct list {
+    int datum;
+    struct list *next;
+};
+
+void insert_at_head(struct list **head, struct list *newNode);
+
+struct list *create_node(int datum);
+
+void iterate(struct list *head);
+
+void free_all(struct list *head);
 
 /*-------------------------------*/
 
