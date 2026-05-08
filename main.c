@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <stddef.h>
+#include <string.h>
 #include "hello.h"
+
 
 int main() {
     //hello();
@@ -31,16 +32,20 @@ int main() {
 
     //paddingBytes();
 
-    struct list *head = NULL;
+    // struct list *head = NULL;
 
-    insert_at_head(&head, create_node(1));
-    insert_at_head(&head, create_node(2));
-    insert_at_head(&head, create_node(0));
-    insert_at_head(&head, create_node(3));
-    insert_at_head(&head, create_node(7));
+    // insert_at_head(&head, create_node(1));
+    // insert_at_head(&head, create_node(2));
+    // insert_at_head(&head, create_node(0));
+    // insert_at_head(&head, create_node(3));
+    // insert_at_head(&head, create_node(7));
 
-    iterate(head);
-    free_all(head);
+    // iterate(head);
+    // free_all(head);
+
+    //nestedStructs();
+
+    //flex_arr_member();
 }
 
 /*---------- Practice ----------*/
@@ -110,9 +115,8 @@ void array()
     printf("%d\n", 2[test]);
 }
 
-void *my_memcpy(void *dest, void *src, int byte_count) 
+void *my_memcpy(void *dest, void *src, size_t byte_count) 
 {
-    
     char *s = src, *d = dest;
 
     while(byte_count--) {
@@ -247,6 +251,58 @@ void paddingBytes()
     printf("%zu\n", offsetof(struct foo, d));
 }
 
+void nestedStructs()
+{
+    spaceship s = {
+        .manufacturer = "General products",
+        .passenger = {
+            [0] = {.name="Brown, Teela",    .covid_vaccinated=1},
+            [1] = {.name="Sun, Aaron",      .covid_vaccinated=0},
+            [2] = {.name="Zheng, Michael",  .covid_vaccinated=1},
+            [3] = {.name="Kim, Like",       .covid_vaccinated=0},
+            [4] = {.name="Chang, Lian",     .covid_vaccinated=1},
+            [5] = {.name="Hsu, HC",         .covid_vaccinated=0},
+            [6] = {.name="Short, Quincy",   .covid_vaccinated=1},
+            [7] = {.name="Madhav, Ayush",   .covid_vaccinated=0},
+        }
+    };
+
+    printf("Passengers for %s ship:\n", s.manufacturer);
+
+    for (int i = 0; i < MAX_PASSENGERS; ++i)
+        if  (s.passenger[i].name != NULL)
+            printf("\t %s (%svaccinated)\n", 
+                s.passenger[i].name, 
+                s.passenger[i].covid_vaccinated ? "" : "not ");
+}
+
+struct len_string *len_string_from_c_string(char *s) 
+{
+    size_t len = strlen(s);
+
+    struct len_string *ls = malloc(sizeof *ls + len);
+
+    ls->length = (int) len;
+
+    //memcpy(ls->data, s, len);
+    my_memcpy(ls->data, s, len);
+
+    return ls;
+}
+
+void flex_arr_member() {
+    char *s = "Aaron is cool\n";
+
+    struct len_string *lstr = len_string_from_c_string(s);
+
+    printf("You are storing a flexible string of length %d in this struct:\n", lstr->length);
+
+    for(int i = 0 ; i < lstr->length; ++i)
+        printf("%c", lstr->data[i]);
+
+    free(lstr);
+}
+
 /*------------------------------*/
 
 /*---------- Exercises ----------*/
@@ -343,15 +399,5 @@ void free_all(struct list *head)
     }
         
 }
-
-// void free_all(struct list *head)
-// {
-//     struct list *cur = head;
-//     while (cur != NULL) {
-//         struct list *next = cur->next;
-//         free(cur);
-//         cur = next;
-//     }
-// }
 
 /*-------------------------------*/

@@ -20,4 +20,4 @@ debug: $(TARGET)
 clean:
 	$(RM) $(TARGET)
 
-.PHONY: all clean
+.PHONY: all debug clean
