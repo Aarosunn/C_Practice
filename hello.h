@@ -2,6 +2,7 @@
 #define HELLO
 
 #include <stddef.h>
+#include <stdint.h>
 
 struct animal {
     char *name;
@@ -62,6 +63,20 @@ struct len_string *len_string_from_c_string(char *s);
 
 void flex_arr_member(void);
 
+enum resource {
+    SHEEP,
+    WHEAT,
+    WOOD,
+    BRICK,
+    ORE
+};
+
+void enumTypes(void);
+
+int add(int a, int b);
+int mult(int a, int b);
+void print_math(int (*op)(int, int), int x, int y);
+
 /*------------------------------*/
 
 /*---------- Exercises ----------*/
@@ -90,6 +105,40 @@ struct block {
     int size;
     char data[];
 };
+
+void test_list(void);
+
+void set_bit(uint64_t *bm, int n);
+
+void clear_bit(uint64_t *bm, int n);
+
+int test_bit(uint64_t bm, int n);
+
+int find_first_free(uint64_t bm);
+
+void test_bitmap(void);
+
+enum flags {
+    BLOCK_ALLOCATED     = 1,
+    BLOCK_PINNED        = 2,
+    BLOCK_DIRTY         = 4,
+    BLOCK_COMPRESSED    = 8
+};
+
+void set_flag(uint32_t *flags, uint32_t flag);
+void clear_flag(uint32_t *flags, uint32_t flag);
+void toggle_flag(uint32_t *flags, uint32_t flag);
+int test_flag(uint32_t flags, uint32_t flag);
+
+struct callback {
+    int a;
+    int b;
+};
+
+void int_callback(void *i);
+void struct_callback(void *ptr);
+void foreach(void * arr, size_t elts, size_t elt_size, void (*callback)(void *));
+void test_foreach(void);
 
 /*-------------------------------*/
 

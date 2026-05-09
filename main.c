@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <inttypes.h>
+
 #include "hello.h"
 
 
@@ -32,20 +34,18 @@ int main() {
 
     //paddingBytes();
 
-    // struct list *head = NULL;
-
-    // insert_at_head(&head, create_node(1));
-    // insert_at_head(&head, create_node(2));
-    // insert_at_head(&head, create_node(0));
-    // insert_at_head(&head, create_node(3));
-    // insert_at_head(&head, create_node(7));
-
-    // iterate(head);
-    // free_all(head);
-
     //nestedStructs();
 
     //flex_arr_member();
+
+    //test_bitmap();
+
+    //enumTypes();
+
+    // print_math(add, 7, 10);
+    // print_math(mult, 7, 10);
+
+    test_foreach();
 }
 
 /*---------- Practice ----------*/
@@ -276,31 +276,28 @@ void nestedStructs()
                 s.passenger[i].covid_vaccinated ? "" : "not ");
 }
 
-struct len_string *len_string_from_c_string(char *s) 
-{
-    size_t len = strlen(s);
+void enumTypes() {
+    enum resource r = BRICK;
 
-    struct len_string *ls = malloc(sizeof *ls + len);
-
-    ls->length = (int) len;
-
-    //memcpy(ls->data, s, len);
-    my_memcpy(ls->data, s, len);
-
-    return ls;
+    if(r == BRICK)
+        printf("I'll trade you a brick for two sheep\n");
 }
 
-void flex_arr_member() {
-    char *s = "Aaron is cool\n";
+int add(int a, int b)
+{
+    return a + b;
+}
 
-    struct len_string *lstr = len_string_from_c_string(s);
+int mult(int a, int b)
+{
+    return a * b;
+}
 
-    printf("You are storing a flexible string of length %d in this struct:\n", lstr->length);
+void print_math(int (*op)(int, int), int x, int y)
+{
+    int result = op(x, y);
 
-    for(int i = 0 ; i < lstr->length; ++i)
-        printf("%c", lstr->data[i]);
-
-    free(lstr);
+    printf("%d\n", result);
 }
 
 /*------------------------------*/
@@ -399,5 +396,154 @@ void free_all(struct list *head)
     }
         
 }
+
+void test_list()
+{
+    struct list *head = NULL;
+
+    insert_at_head(&head, create_node(1));
+    insert_at_head(&head, create_node(2));
+    insert_at_head(&head, create_node(0));
+    insert_at_head(&head, create_node(3));
+    insert_at_head(&head, create_node(7));
+
+    iterate(head);
+    free_all(head);
+}
+
+struct len_string *len_string_from_c_string(char *s) 
+{
+    size_t len = strlen(s);
+
+    struct len_string *ls = malloc(sizeof *ls + len);
+
+    ls->length = (int) len;
+
+    //memcpy(ls->data, s, len);
+    my_memcpy(ls->data, s, len);
+
+    return ls;
+}
+
+void flex_arr_member() {
+    char *s = "Aaron is cool\n";
+
+    struct len_string *lstr = len_string_from_c_string(s);
+
+    printf("You are storing a flexible string of length %d in this struct:\n", lstr->length);
+
+    for(int i = 0 ; i < lstr->length; ++i)
+        printf("%c", lstr->data[i]);
+
+    free(lstr);
+}
+
+void set_bit(uint64_t *bm, int n)
+{
+    *bm |= (1UL << n);
+}
+
+void clear_bit(uint64_t *bm, int n)
+{
+    *bm &= ~(1UL << n);
+}
+
+int test_bit(uint64_t bm, int n)
+{
+    return (bm >> n) & 1;
+}
+
+int find_first_free(uint64_t bm) 
+{
+    if (bm == UINT64_MAX) return -1;
+    return __builtin_ctzll(~bm);
+}
+
+void test_bitmap() 
+{
+    uint64_t val = 0;
+    uint64_t *bit = &val;
+    printf("%" PRIu64 "\n", *bit);
+    set_bit(bit, 2);
+    printf("%" PRIu64 "\n", *bit);
+    set_bit(bit, 1);
+    printf("%" PRIu64 "\n", *bit);
+    set_bit(bit, 0);
+    printf("%" PRIu64 "\n", *bit);
+    set_bit(bit, 0);
+    set_bit(bit, 1);
+    set_bit(bit, 2);
+    printf("%" PRIu64 "\n", *bit);
+    printf("%d\n", find_first_free(*bit));
+    clear_bit(bit, 1);
+    printf("%" PRIu64 "\n", *bit);
+    clear_bit(bit, 2);
+    clear_bit(bit, 0);
+    printf("%" PRIu64 "\n", *bit);
+
+    printf("%d\n", test_bit(*bit, 10));
+    set_bit(bit, 10);
+    printf("%d\n", test_bit(*bit, 10));
+}
+
+void set_flag(uint32_t *flags, uint32_t flag)
+{
+    *flags |= flag;
+}
+
+void clear_flag(uint32_t *flags, uint32_t flag)
+{
+    *flags &= ~flag;
+}
+
+void toggle_flag(uint32_t *flags, uint32_t flag)
+{
+    *flags ^= flag;
+}
+
+int test_flag(uint32_t flags, uint32_t flag)
+{
+    if (flags & flag) 
+        return 1;
+    return 0;
+}
+
+void int_callback(void *i) 
+{
+    printf("%d\n", *(int *)i);
+}
+void struct_callback(void *ptr)
+{
+    struct callback *c = (struct callback *)ptr;
+    printf("%d\n", c->a + c->b);
+}
+
+void foreach(void *arr, size_t elts, size_t elt_size, void (*callback)(void *))
+{
+    char *end = (char *) arr + (elts * elt_size);
+    for(char *start = (char *) arr; start != end; start += elt_size)
+        callback(start);
+}
+
+void test_foreach()
+{
+    int int_arr[5] = {1, 2, 3, 4, 5}; 
+    foreach(int_arr, 5, sizeof(int_arr[0]), int_callback);
+
+    struct callback c_arr[5] = {
+        {.a = 1, .b = 2},
+        {.a = 3, .b = 4},
+        {.a = 5, .b = 6},
+        {.a = 7, .b = 8},
+        {.a = 9, .b = 10},
+    };
+
+    printf("\n");
+    foreach(c_arr, 5, sizeof(c_arr[0]), struct_callback);
+}
+
+
+
+// void foreach(void (*arr))
 
 /*-------------------------------*/
