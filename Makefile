@@ -34,10 +34,7 @@ debug-arena: $(ARENA_TARGET)
 debug-refcount: $(REFCOUNT_TARGET)
 	$(VALGRIND) $(VALGRIND_FLAGS) ./$(REFCOUNT_TARGET)
 
-debug-memleak: $(MEMLEAK_TARGET)
-	$(VALGRIND) $(VALGRIND_FLAGS) ./$(MEMLEAK_TARGET)
-
 clean:
 	$(RM) $(TARGET) $(ARENA_TARGET) $(REFCOUNT_TARGET) $(MEMLEAK_TARGET)
 
-.PHONY: all debug debug-arena debug-refcount debug-memleak clean
+.PHONY: all debug debug-arena debug-refcount clean
